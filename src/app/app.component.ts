@@ -40,6 +40,7 @@ export class AppComponent {
     this.mySubject$.next(2);
     this.mySubject$.subscribe(x => console.log('second subscribe ', x));
     this.mySubject$.next(3);
+
     // ** RATHER THAN USING .complete() use .unsubscribe() so you get an error rather than a silent failure
   }
 
