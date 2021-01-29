@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { interval} from 'rxjs';
-import { take, map, filter } from 'rxjs/operators';
+import { interval, of } from 'rxjs';
+import { take, map, filter, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +11,17 @@ export class AppComponent {
   title = 'rxjs-linkedin';
 
   ngOnInit() {
-    const numbers$ = interval(1000).pipe(
-      take(5),
-      map(x => x * 10),
-      filter(x => x > 10)
+    const numbers$ = interval(1000);
+    const letters$ = of('a', 'b', 'c', 'd', 'e').pipe(
+      mergeMap(x =>
+        numbers$.pipe(
+          take(5),
+          map(i => i + x)
+        )
+      )
     );
 
-    numbers$.subscribe(x => console.log(x));
+    letters$.subscribe(x => console.log(x));
   }
 
   ngOnDestroy() {
