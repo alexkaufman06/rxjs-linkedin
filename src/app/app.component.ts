@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { interval} from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,10 @@ export class AppComponent {
   title = 'rxjs-linkedin';
 
   ngOnInit() {
-    const numbers$ = interval(1000).pipe(take(5));
+    const numbers$ = interval(1000).pipe(
+      take(5),
+      map(x => x * 10)
+    );
 
     numbers$.subscribe(x => console.log(x));
   }
